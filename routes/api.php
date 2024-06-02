@@ -25,7 +25,10 @@ Route::post('/create-user', [AuthController::class, 'createUser']);
 Route::post('/create-admin', [AuthController::class, 'createAdmin']);
 //Log In & out
 Route::post('/log-in', [AuthController::class, 'logIn']);
-Route::get('/log-out', [AuthController::class, 'logOut']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/log-out', [AuthController::class, 'logOut']);
+});
 
 //Get Users
 // Route::get('/users', [UserController::class, 'getAllUser']);

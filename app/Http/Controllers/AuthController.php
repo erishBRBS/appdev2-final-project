@@ -70,7 +70,6 @@ class AuthController extends Controller
     //--------------------------------------LOG IN--------------------------------------//
     public function logIn(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:5',
@@ -80,26 +79,21 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
         
-        // Validate the request
         $credentials = $request->only('email', 'password');
 
-        // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            $users = Auth::user();
-            return response()->json(['message' => 'Login successful', 'user' => $users], 200);
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return response()->json(['message' => 'Login successful', 'user' => $user, 'token' => $token], 200);
         } else {
-            // Authentication failed...
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
     }
 
-    //--------------------------------------LOG IN--------------------------------------//
-    public function logout(Request $request)
+    //--------------------------------------LOG OUT--------------------------------------//
+    public function logOut(Request $request)
     {
-        // Log out the authenticated user
-        Auth::logout();
-
+        $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
 
