@@ -27,10 +27,6 @@ class InfoController extends Controller
 
     public function getUserById($id)
     {
-        // Ensure the user is an admin
-        if (Auth::user()->role_id !== 2) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
 
         // Retrieve the user by ID
         $user = UserAccount::find($id);
