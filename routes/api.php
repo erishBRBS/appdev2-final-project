@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,13 @@ Route::post('/create-admin', [AuthController::class, 'createAdmin']);
 //Log In & out
 Route::post('/log-in', [AuthController::class, 'logIn']);
 
+
+//Ipapasok to sa admin access middleware
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users', [InfoController::class, 'getAllUsers']);
+    Route::get('/users/{id}', [InfoController::class, 'getUserById']);
+    Route::post('/product/create', [ProductController::class, 'createProduct']);
+    Route::put('/product/update/{id}', [ProductController::class, 'updateProduct']);
+    Route::delete('/product/delete/{id}', [ProductController::class, 'deleteProduct']);
     Route::get('/log-out', [AuthController::class, 'logOut']);
 });
-
-//Get Users
-// Route::get('/users', [UserController::class, 'getAllUser']);

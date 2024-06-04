@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserRole extends Model
+class ItemSize extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['role'];
+    protected $fillable = ['size'];
 
-    public function users()
+    public function sizes()
     {
-        return $this->hasMany(UserAccount::class, 'role_id');
+        return $this->hasMany(ItemSize::class, 'size_id');
     }
 }
