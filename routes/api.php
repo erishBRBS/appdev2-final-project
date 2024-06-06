@@ -32,27 +32,21 @@ Route::post('/log-in', [AuthController::class, 'logIn']);
 Route::middleware('auth:sanctum')->group(function () {
 
     //Admin
-    Route::get('/users', [InfoController::class, 'getAllUsers']);
-    Route::get('/users/{id}', [InfoController::class, 'getUserById']);
-    Route::post('/product/create', [ProductController::class, 'createProduct']);
-    Route::put('/product/update/{id}', [ProductController::class, 'updateProduct']);
-    Route::delete('/product/delete/{id}', [ProductController::class, 'deleteProduct']);
+    Route::middleware('admin_middleware')->group(function(){
+        Route::get('/users', [InfoController::class, 'getAllUsers']);
+        Route::get('/users/{id}', [InfoController::class, 'getUserById']);
+        Route::get('/orders', [InfoController::class, 'getAllOrders']);
+        Route::post('/product/create', [ProductController::class, 'createProduct']);
+        Route::put('/product/update/{id}', [ProductController::class, 'updateProduct']);
+        Route::delete('/product/delete/{id}', [ProductController::class, 'deleteProduct']);
+        Route::get('/users-with-orders', [InfoController::class, 'getAllUsersWithOrders']);
+    });
 
     //User
-    Route::post('/order/create', [OrderController::class, 'createOrder']);
-    Route::get('/order/view', [OrderController::class, 'viewOrders']);
+    Route::middleware('user_middleware')->group(function(){
+        Route::post('/order/create', [OrderController::class, 'createOrder']);
+        Route::get('/order/view', [OrderController::class, 'viewOrders']);
+    });
 
     Route::get('/log-out', [AuthController::class, 'logOut']);
-
-
-
 });
-
-    // //Admin
-    // Route::middleware('admin_middleware')->group(function(){
-    //     Route::get('/users', [InfoController::class, 'getAllUsers']);
-    //     Route::get('/users/{id}', [InfoController::class, 'getUserById']);
-    //     Route::post('/product/create', [ProductController::class, 'createProduct']);
-    //     Route::put('/product/update/{id}', [ProductController::class, 'updateProduct']);
-    //     Route::delete('/product/delete/{id}', [ProductController::class, 'deleteProduct']);
-    // });

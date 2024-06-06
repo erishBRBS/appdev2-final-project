@@ -3,40 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserAccount;
+use App\Models\OrderList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class InfoController extends Controller
 {
-    // Existing methods...
-
     //--------------------------------------GET ALL USERS--------------------------------------//
     public function getAllUsers()
     {
-        // Ensure the user is an admin
-        if (Auth::user()->role_id !== 2) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
         // Retrieve all users
         $users = UserAccount::all();
-
         // Return the users as a JSON response
         return response()->json(['users' => $users], 200);
     }
-
-    public function getUserById($id)
-    {
-
-        // Retrieve the user by ID
-        $user = UserAccount::find($id);
-
-        // Check if the user exists
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+    //--------------------------------------GET ALL ORDERS--------------------------------------//
+        public function getAllOrders()
+        {
+            // Retrieve all orders
+            $orders = OrderList::all();
+            // Return the users as a JSON response
+            return response()->json(['orders' => $orders], 200);
         }
-
-        // Return the user as a JSON response
-        return response()->json(['user' => $user], 200);
-    }
+    //----------------------------GET ALL USERS ALONG WITH THEIR ORDERS---------------------------//
+        public function getAllUsersWithOrders()
+        {
+            // Retrieve all users along with their orders
+            $users = UserAccount::with('orders')->get();
+    
+            // Return the users with their orders as a JSON response
+            return response()->json(['users' => $users], 200);
+        }
 }

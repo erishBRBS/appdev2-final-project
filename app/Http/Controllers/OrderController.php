@@ -14,11 +14,6 @@ class OrderController extends Controller
     //--------------------------------------CREATE ORDER--------------------------------------//
     public function createOrder(Request $request)
     {
-        // Ensure the user has the correct role
-        if (Auth::user()->role_id !== 1) {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
-    
         // Validate the request
         $validator = Validator::make($request->all(), [
             'product_id' => 'required|exists:item_products,id',
@@ -48,10 +43,6 @@ class OrderController extends Controller
 //--------------------------------------VIEW ORDERS--------------------------------------//
 public function viewOrders()
 {
-    if (Auth::user()->role_id !== 1) {
-        return response()->json(['message' => 'Unauthorized'], 403);
-    }
-
     $orders = OrderList::where('user_id', Auth::id())->get();
 
     return response()->json(['orders' => $orders], 200);

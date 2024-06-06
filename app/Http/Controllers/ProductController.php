@@ -12,10 +12,6 @@ class ProductController extends Controller
     //--------------------------------------CREATE PRODUCT--------------------------------------//
 public function createProduct(Request $request)
 {
-    if (Auth::user()->role_id !== 2) {
-        return response()->json(['message' => 'Unauthorized'], 403);
-    }
-
     $validator = Validator::make($request->all(), [
         'brand_id' => 'required|exists:item_brands,id',
         'product_name' => 'required|string|max:255|unique:item_products',
@@ -37,11 +33,6 @@ public function createProduct(Request $request)
 //--------------------------------------UPDATE PRODUCT--------------------------------------//
 public function updateProduct(Request $request, $id)
 {
-    // Check if the authenticated user is an admin (role_id = 2)
-    if (Auth::user()->role_id !== 2) {
-        return response()->json(['message' => 'Unauthorized'], 403);
-    }
-
     // Find the product by ID
     $product = ItemProduct::find($id);
 
@@ -75,10 +66,6 @@ public function updateProduct(Request $request, $id)
 //--------------------------------------DELETE PRODUCT--------------------------------------//
 public function deleteProduct($id)
 {
-    if (Auth::user()->role_id !== 2) {
-        return response()->json(['message' => 'Unauthorized'], 403);
-    }
-
     $product = ItemProduct::find($id);
 
     if (!$product) {

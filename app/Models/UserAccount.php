@@ -30,5 +30,10 @@ class UserAccount extends Authenticatable
     {
         return $this->belongsTo(UserRole::class, 'role_id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(OrderList::class, 'user_id');
+    }
 }
 

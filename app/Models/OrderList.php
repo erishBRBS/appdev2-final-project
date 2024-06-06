@@ -22,4 +22,5 @@ class OrderList extends Model
     {
         return $this->belongsTo(ItemProduct::class, 'product_id');
     }
+    
 }
