@@ -29,7 +29,7 @@ class InfoController extends Controller
         public function getAllUsersWithOrders()
         {
             // Retrieve all users along with their orders
-            $users = UserAccount::with('orders')->get();
+            $users = UserAccount::with('orders')->where('role_id', 1)->get();
     
             // Return the users with their orders as a JSON response
             return response()->json(['users' => $users], 200);

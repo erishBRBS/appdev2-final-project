@@ -29,6 +29,14 @@ public function createProduct(Request $request)
 
     return response()->json(['message' => 'Product created successfully', 'product' => $product], 201);
 }
+//--------------------------------------READ PRODUCT--------------------------------------//
+public function readProducts()
+{
+    // Retrieve all products
+    $products = ItemProduct::all();
+    // Return the users as a JSON response
+    return response()->json(['products' => $products], 200);
+}
 
 //--------------------------------------UPDATE PRODUCT--------------------------------------//
 public function updateProduct(Request $request, $id)

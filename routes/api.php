@@ -6,6 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ItemSizeController;
+use App\Http\Controllers\ItemQuantityController;
+use App\Http\Controllers\ItemBrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,13 +36,34 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Admin
     Route::middleware('admin_middleware')->group(function(){
+        //Users
         Route::get('/users', [InfoController::class, 'getAllUsers']);
-        Route::get('/users/{id}', [InfoController::class, 'getUserById']);
+
+        //Orders
         Route::get('/orders', [InfoController::class, 'getAllOrders']);
+
+        //Users with orders
+        Route::get('/users-with-orders', [InfoController::class, 'getAllUsersWithOrders']);
+
+        //Products
         Route::post('/product/create', [ProductController::class, 'createProduct']);
+        Route::get('/product/read', [ProductController::class, 'readProducts']);
         Route::put('/product/update/{id}', [ProductController::class, 'updateProduct']);
         Route::delete('/product/delete/{id}', [ProductController::class, 'deleteProduct']);
-        Route::get('/users-with-orders', [InfoController::class, 'getAllUsersWithOrders']);
+
+        //Product Brand
+        Route::post('/create-brand', [ItemBrandController::class, 'createBrand']);
+        Route::get('/view-brand', [ItemBrandController::class, 'viewAllBrands']);
+
+        //Product Size
+        Route::post('/create-size', [ItemSizeController::class, 'createSize']);
+        Route::get('/view-size', [ItemSizeController::class, 'viewAllSize']);
+
+        //Product Quantity
+        Route::post('/create-qty', [ItemQuantityController::class, 'productQty']);
+        Route::get('/view-qty', [ItemQuantityController::class, 'viewProductQty']);
+        Route::put('/update-qty/{id}', [ItemQuantityController::class, 'updateQty']);
+
     });
 
     //User
