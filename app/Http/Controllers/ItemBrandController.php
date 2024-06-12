@@ -10,7 +10,8 @@ class ItemBrandController extends Controller
     public function viewAllBrands()
     {
         $brands = ItemBrand::all();
-        return response()->json($brands);
+        return response()->json([
+            'Product brands' => $brands], 200);
     }
 
     public function createBrand(Request $request)
@@ -20,6 +21,8 @@ class ItemBrandController extends Controller
         ]);
 
         $brand = ItemBrand::create($validated);
-        return response()->json($brand, 201);
+        return response()->json([
+            'message' => "Product brand successfully created.",
+            'info' => $brand], 201);
     }
 }

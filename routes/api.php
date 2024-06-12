@@ -27,7 +27,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Registration
 Route::post('/create-user', [AuthController::class, 'createUser']);
-Route::post('/create-admin', [AuthController::class, 'createAdmin']);
 //Log In & out
 Route::post('/log-in', [AuthController::class, 'logIn']);
 
@@ -38,9 +37,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('admin_middleware')->group(function(){
         //Users
         Route::get('/users', [InfoController::class, 'getAllUsers']);
-
-        //Orders
-        Route::get('/orders', [InfoController::class, 'getAllOrders']);
 
         //Users with orders
         Route::get('/users-with-orders', [InfoController::class, 'getAllUsersWithOrders']);
@@ -63,7 +59,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/create-qty', [ItemQuantityController::class, 'productQty']);
         Route::get('/view-qty', [ItemQuantityController::class, 'viewProductQty']);
         Route::put('/update-qty/{id}', [ItemQuantityController::class, 'updateQty']);
-
     });
 
     //User

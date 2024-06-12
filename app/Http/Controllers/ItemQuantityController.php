@@ -2,35 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CreateQuantityRequest;
+use App\Http\Requests\UpdateQuantityRequest;
 use App\Models\ItemQuantity;
 
 class ItemQuantityController extends Controller
 {
-    public function productQty(Request $request)
+    public function productQty(CreateQuantityRequest $request)
     {
-        $validated = $request->validate([
-            'quantity' => 'required|integer',
-        ]);
-
-        $quantity = ItemQuantity::create($validated);
-        return response()->json($quantity, 201);
+        $quantity = ItemQuantity::create($request->validated());
+        return response()->json([
+            'message' => "Product quantity successfully created.",
+            'info' => $quantity], 201);
     }
 
     public function viewProductQty()
     {
         $quantity = ItemQuantity::all();
-        return response()->json($quantity);
+        return response()->json([
+            'Product quantities' => $quantity], 200);
+        
     }
 
-    public function updateQty(Request $request, $id)
+    public function updateQty(UpdateQuantityRequest $request, $id)
     {
-        $validated = $request->validate([
-            'quantity' => 'required|integer',
-        ]);
-
         $quantity = ItemQuantity::findOrFail($id);
-        $quantity->update($validated);
-        return response()->json($quantity);
+        $quantity->update($request->validated());
+        return response()->json([
+            'message' => "Product with id: " . $id . " successfully updated.",
+            'updated info' => $quantity,
+        ], 200);
+        
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CreateSizeRequest;
 use App\Models\ItemSize;
 
 class ItemSizeController extends Controller
@@ -10,16 +10,15 @@ class ItemSizeController extends Controller
     public function viewAllSize()
     {
         $sizes = ItemSize::all();
-        return response()->json($sizes);
+        return response()->json([
+            'Product sizes ' => $sizes, 200]);
     }
 
-    public function createSize(Request $request)
+    public function createSize(CreateSizeRequest $request)
     {
-        $validated = $request->validate([
-            'size' => 'required|string|max:255',
-        ]);
-
-        $size = ItemSize::create($validated);
-        return response()->json($size, 201);
+        $size = ItemSize::create($request->validated());
+        return response()->json([
+        'message' => "Product size successfully created.",
+        'info' => $size, 201]);
     }
 }
